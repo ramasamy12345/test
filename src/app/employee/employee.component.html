@@ -1,0 +1,122 @@
+<div class="jumbotron">
+    <div class="">
+       <h3 class="text-center">Add, Update, View or Search Employee Data Over Here</h3>
+    </div>
+ </div>
+ <div class="container" align="center" *ngIf="navPage.add || navPage.edit">
+    <!-- <div [hidden]="!show_error" class="alert alert-danger">{{responseMessage}}</div>
+       <div [hidden]="show_error" class="alert alert-success">{{responseMessage}}</div>-->
+       
+    <form class="panel panel-default">
+       <div class="form-group">
+          <div class="row">
+             <div class="col-lg-6" align="right"><label>First Name</label></div>
+             <div class="col-lg-6" align="left"><input class="input-sm" type="text" name="firstName"
+                [(ngModel)]="name.firstName"/>
+             </div>
+          </div>
+       </div>
+       <div class="form-group">
+          <div class="row">
+             <div class="col-lg-6" align="right"><label>Last Name</label></div>
+             <div class="col-lg-2"><input class="input-sm" type="text" name="lastName" required
+                [(ngModel)]="name.lastName"/>
+             </div>
+          </div>
+       </div>
+       <div class="form-group">
+          <div class="row">
+             <div class="col-lg-6" align="right"><label>Age</label></div>
+             <div class="col-lg-2"><input class="input-sm" type="number" name="age" [(ngModel)]="age"/>
+             </div>
+          </div>
+       </div>
+        <div class="form-group">
+         <div class="row">
+             <div class="col-lg-6" align="right"><label>City</label></div>
+             <div class="col-lg-2"><input class="input-sm" type="text" [(ngModel)]="address.city" name="city"/>
+             </div>
+          </div>
+       </div>
+          <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-6" align="right"><label>State</label></div>
+             <div class="col-lg-2"><input class="input-sm" type="text" name="state" [(ngModel)]="address.state"/>
+             </div>
+          </div>
+       </div>
+          <div class="form-group">
+                <div class="row">
+                        <div class="col-lg-6" align="right"><label>Pincode</label></div>
+             <div class="col-lg-2"><input class="input-sm" type="text" name="pincode" [(ngModel)]="address.pincode">
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-lg-6" align="right" *ngIf="navPage.add">
+             <button class="btn btn-primary" type="submit" (click)="addEmployee()">Add</button>
+          </div>
+          <div class="col-lg-6" align="right" *ngIf="navPage.edit">
+             <button class="btn btn-primary" type="submit" (click)="editEmployee()">Edit</button>
+          </div>
+          <div class="col-lg-6" align="left">
+             <button class="btn btn-default" (click)="navChange('list')">Cancel</button>
+          </div>
+       </div>
+    </form>
+ </div>
+ <!--List screen-->
+ <div *ngIf="show_list && navPage.list">
+    <table class="table  table-striped" align="center">
+       <tr class="row" >
+          <td class="col-lg-2"><input name="searchName" class="form-control" [(ngModel)]="searchFirstName"
+             (keyup)="searchList()">
+          </td>
+          <td class="col-lg-2"><input type="text" class="form-control" [(ngModel)]="searchLastName" (keyup)="searchList()"
+             name="searchLastName">
+          </td>
+          <td class="col-lg-1"><input type="text" class="form-control" [(ngModel)]="searchAge" (keyup)="searchList()"
+             name="searchAge">
+          </td>
+          <td class="col-lg-2"><input type="text" class="form-control" [(ngModel)]="searchCity" (keyup)="searchList()"
+             name="searchCity">
+          </td>
+          <td class="col-lg-2"><input type="text" class="form-control" [(ngModel)]="searchState" (keyup)="searchList()"
+             name="searchState">
+          </td>
+          <td class="col-lg-1"><input type="text" class="form-control" [(ngModel)]="searchPincode" (keyup)="searchList()"
+             name="searchPincode">
+          </td>
+          <td class="col-lg-2">
+            <button class="btn-info " (click)="navChange('add')">Add</button>
+          </td>          
+       </tr>
+       <tr class="row" >
+          <th class="text-center col-lg-2">First Name</th>
+          <th class="text-center col-lg-2">Last Name</th>
+          <th class="text-center col-lg-1">Age</th>
+          <th class="text-center col-lg-2">City</th>
+          <th class="text-center col-lg-2">State</th>
+          <th class="text-center col-lg-1">Pincode</th>
+          <th class="text-center col-lg-2"></th>
+       </tr>
+       <tr class="row" *ngFor="let user of employeeList">
+          <td class="col-lg-2">{{user.name?.firstName}}</td>
+          <td class="col-lg-2">{{user.name?.lastName}}</td>
+          <td class="col-lg-1">{{user.age}}</td>
+          <td class="col-lg-2">{{user.address?.city}}</td>
+          <td class="col-lg-2">{{user.address?.state}}</td>
+          <td class="col-lg-1">{{user.address?.pincode}}</td>
+          <td class="col-lg-2">
+             <button class="btn-info" (click)="getEmployee(user._id)">Edit</button>
+             <button class="btn-danger" (click)="deleteEmployee(user._id)">Delete</button>
+          </td>
+       </tr>
+       <tr>
+             <ul class="pagination">
+                <li style="padding:10px;"><button [disabled]="isFirst" (click)="changePagination('previous')">Previous</button></li>
+                <li style="padding:10px;"><button [disabled]="isLast" (click)="changePagination('next')">Next</button></li>
+             </ul>
+       </tr>
+    </table>
+ </div>
